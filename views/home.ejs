@@ -1,0 +1,15 @@
+<%- include ("./partials/header")  -%>
+<h1>Home</h1>
+<%= home %>
+<% posts.forEach((post)=>{ %>
+  <% const link = post.title.replace(/\s+/g, '-') %>
+ <a href="posts/<%=link%>"><h3><%= post.title %></h3></a>
+  <% if(post.postBody.length > 500){ %>
+    <p><%= post.postBody.slice(0,500) %>...</p>
+  <% } else { %>
+    <p><%=post.postBody %></p>
+  <%}%>
+
+<% })%>
+
+<%- include ("./partials/footer")  -%>

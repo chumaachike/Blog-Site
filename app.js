@@ -14,19 +14,40 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+let posts = []
 
+app.get('/', (req, res)=>{
+  res.render('home', {home: homeStartingContent, posts})
+})
 
+app.get('/about', (req, res)=>{
+  res.render('about', {about: aboutContent})
+})
+app.get('/contact', (req, res)=>{
+  res.render('contact', {contact: contactContent})
+})
 
+app.get('/compose', (req, res)=>{
+  res.render('compose')
+})
 
+app.get('/posts/:title', (req, res)=>{
+  const title = req.params.title.replace(/-/g, ' ')
+  const post = posts.find(element=>element.title === title )
+  if(post){
+    res.render("post", {title: post.title, body: post.postBody})
+  }else{
+    res.render("error")
+  }
+})
 
+app.post('/', (req, res)=>{
+  const {title, postBody} = req.body
+  const post = {title, postBody}
+  posts.push(post)
+  res.redirect("/")
 
-
-
-
-
-
-
-
+})
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
